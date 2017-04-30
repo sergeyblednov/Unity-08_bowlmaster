@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
+using NUnit.Framework;
 
 [TestFixture]
 public class ActionMasterTest {
