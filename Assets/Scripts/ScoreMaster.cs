@@ -40,8 +40,7 @@ public class ScoreMaster {
 				frames.Add (10 + rolls [i + 1]);
 			}
 		}
-
-
+			
 		return frames;
 	}
 }
