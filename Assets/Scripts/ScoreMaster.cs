@@ -10,6 +10,7 @@ public class ScoreMaster {
 
 		foreach (int frameScore in ScoreFrames(rolls)) {
 			runningTotal += frameScore;
+			scoreList.Add (runningTotal);
 		}
 
 		return scoreList;
@@ -19,20 +20,51 @@ public class ScoreMaster {
 		List<int> frameList = new List<int> ();
 		int bowl = 1;
 		int runningSum = 0;
+		int strike = 0;
+
 		for (int i = 0; i < rolls.Count; i++) {
 			runningSum += rolls [i];
-			if (bowl % 2 == 0 && runningSum < 10) {
-					frameList.Add (runningSum);
-					runningSum = 0;	
-			} else if (runningSum > 10) {
-					frameList.Add (runningSum - rolls[i]);
-					frameList.Add (runningSum - 10);
-					runningSum = 0;	
+
+			if (rolls[i] == 10) {
+				strike += 10;
+				if (strike == 30) {
+					frameList.Add (strike);
+					strike -= 10;
+				}
+				bowl += 2;
+				continue;					
 			}
 
+			if (bowl % 2 == 0 && runningSum < 10) {
+				frameList.Add (runningSum);
+				runningSum = 0;	
+			} else if (bowl % 2 == 0 && runningSum > 10) {
+				if (strike != 0 && frameList.Count < 9) {
+					if (strike > 10 && runningSum % 10 != 0) {
+						frameList.Add (runningSum - rolls [i]);
+					} else  {
+						frameList.Add (runningSum);	
+					}
+					while (strike > 0) {
+						runningSum -= 10;
+						strike -= 10;
+						frameList.Add (runningSum);
+					}
+					runningSum = 0;
+				} else if (strike != 0 && frameList.Count == 9){
+					frameList.Add (runningSum);
+					runningSum = 0;
+				}
+			}
+
+			if (bowl % 2 != 0 && runningSum > 10) {
+				if (strike == 0) {
+					frameList.Add (runningSum);
+					runningSum = rolls [i];
+				}
+			}
 			bowl++;
 		}
-
 		return frameList;
 	}
 }

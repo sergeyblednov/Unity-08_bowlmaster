@@ -118,6 +118,13 @@ public class ScoreMasterTest {
 	}
 
 	[Test]
+	public void T15ATestAllStrikes () {
+		int[] rolls = { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,10,10};
+		int[] frames = {30, 30, 30, 30, 30, 30, 30, 30, 30,       30};
+		Assert.AreEqual (frames.ToList(), ScoreMaster.ScoreFrames (rolls.ToList()));
+	}
+
+	[Test]
 	public void T16TestGutterGame () {
 		int[] rolls = { 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0};
 		int[] totalS = {  0,   0,   0,   0,   0,   0,   0,   0,   0,   0};

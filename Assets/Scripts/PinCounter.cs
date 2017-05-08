@@ -70,7 +70,6 @@ public class PinCounter : MonoBehaviour {
 		lastStandingCount = -1; // Indicates pins have settled, and ball not back in box
 		ballOutOfPlay = false;
 		standingDisplay.color = Color.green;
-		print (standingDisplay.color);
 	}
 
 	int CountStanding () {
