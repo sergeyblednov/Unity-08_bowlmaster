@@ -17,54 +17,31 @@ public class ScoreMaster {
 	}
 
 	public static List<int> ScoreFrames (List<int> rolls) {
-		List<int> frameList = new List<int> ();
-		int bowl = 1;
-		int runningSum = 0;
-		int strike = 0;
+		List<int> frames = new List<int> ();
 
-		for (int i = 0; i < rolls.Count; i++) {
-			runningSum += rolls [i];
+		for (int i = 1; i < rolls.Count; i += 2) {					
 
-			if (rolls[i] == 10) {
-				strike += 10;
-				if (strike == 30) {
-					frameList.Add (strike);
-					strike -= 10;
-				}
-				bowl += 2;
-				continue;					
+			if (frames.Count == 10) {								// Prevent from 11th frame score
+				break;
 			}
 
-			if (bowl % 2 == 0 && runningSum < 10) {
-				frameList.Add (runningSum);
-				runningSum = 0;	
-			} else if (bowl % 2 == 0 && runningSum > 10) {
-				if (strike != 0 && frameList.Count < 9) {
-					if (strike > 10 && runningSum % 10 != 0) {
-						frameList.Add (runningSum - rolls [i]);
-					} else  {
-						frameList.Add (runningSum);	
-					}
-					while (strike > 0) {
-						runningSum -= 10;
-						strike -= 10;
-						frameList.Add (runningSum);
-					}
-					runningSum = 0;
-				} else if (strike != 0 && frameList.Count == 9){
-					frameList.Add (runningSum);
-					runningSum = 0;
-				}
+			if (rolls [i - 1] + rolls [i] < 10) {					// NORMAL FRAME
+				frames.Add (rolls [i - 1] + rolls [i]);	
 			}
 
-			if (bowl % 2 != 0 && runningSum > 10) {
-				if (strike == 0) {
-					frameList.Add (runningSum);
-					runningSum = rolls [i];
-				}
+			if (rolls.Count - i <= 1) {								// Insufficient look-ahead
+				break;
 			}
-			bowl++;
+
+			if (rolls [i - 1] == 10) {								// STRIKE
+				i--;												//
+				frames.Add (10 + rolls [i + 1] + rolls [i + 2]);
+			} else if (rolls [i - 1] + rolls [i] == 10) {			// SPARE
+				frames.Add (10 + rolls [i + 1]);
+			}
 		}
-		return frameList;
+
+
+		return frames;
 	}
 }
